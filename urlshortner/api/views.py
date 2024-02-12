@@ -18,7 +18,8 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 class ShortURLList(generics.ListAPIView):
-    authentication_classes = [BasicAuthentication, JWTAuthentication]
+    authentication_classes = [BasicAuthentication]
+    # , JWTAuthentication
     permission_classes = [IsAuthenticated]
     
     serializer_class = URLSerializer
@@ -37,6 +38,9 @@ class URLRedirection(APIView):
             return Response({'error':'alias not found'},status=status.HTTP_404_NOT_FOUND)
         
 
+
+# The `urlAPI` class is an API view that handles POST requests to create a URL object with
+# authentication and permission checks.
 class urlAPI(APIView):
     authentication_classes = [BasicAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]

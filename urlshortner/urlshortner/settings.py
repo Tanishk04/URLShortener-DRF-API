@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ce4!296o$8ei-zhd6iqcy7+6@an+9p2fq=8e+l9u^#g$&@h+)2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 # Application definition
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'crispy_forms',
     "crispy_bootstrap4",
+    'rest_framework'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -139,3 +140,9 @@ REST_FRAMEWORK = {
 
 ## LOGIN URL
 LOGIN_URL = '/user/login'
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+}

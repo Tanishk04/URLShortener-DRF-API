@@ -6,7 +6,7 @@ from .models import User, URL
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'created_at', 'last_login']
+        fields = ['id', 'username', 'email']
 
 
 class URLSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class URLSerializer(serializers.ModelSerializer):
 class URLPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = URL
-        fields = ['alias','long','user']
+        fields = ['alias','long']
      
         
 class UserRegistrationSerializer(serializers.ModelSerializer):

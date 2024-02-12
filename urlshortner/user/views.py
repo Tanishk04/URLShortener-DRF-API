@@ -36,6 +36,8 @@ def register_request(request):
     )
 
 
+# The `urlAPI` class is an API view that handles POST requests to create a URL object with
+# authentication and permission checks.
 def login_request(request):
     if request.user.is_authenticated:
         return JsonResponse({'message': 'User already logged in','user':request.user.username})
