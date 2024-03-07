@@ -10,7 +10,7 @@ This project provides a RESTful API for shortening and managing URLs. Users can 
 
 - Shorten long URLs into easily shareable aliases.
 - View a list of shortened URLs associated with your account.
-- Redirect to the original URL using the short alias.
+- Redirect to the original URL using the short alias..
 
 ## Technologies Used
 
