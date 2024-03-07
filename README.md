@@ -4,7 +4,7 @@ A Django-based web service for shortening URLs.
 
 ## Overview
 
-This project provides a RESTful API for shortening and managing URLs. Users can create short aliases for their long URLs and manage them through the provided API endpoints.
+This project provides a RESTful API for shortening and managing URLs. Users can create short aliases for their long URLs and manage them through the provided API endpoints..
 
 ## Features
 
