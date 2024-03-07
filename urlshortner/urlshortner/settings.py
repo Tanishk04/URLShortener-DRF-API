@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
+TOKEN_API_ENDPOINT = 'http://127.0.0.1:8000'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'user',
+    'webapp',
     'crispy_forms',
     "crispy_bootstrap4",
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -146,3 +150,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
 }
+
+SESSION_COOKIE_AGE = 1800  #"1209600(2 weeks)" by default 
+
+SESSION_SAVE_EVERY_REQUEST = True # "False" by default

@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -18,7 +19,7 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 class ShortURLList(generics.ListAPIView):
-    authentication_classes = [BasicAuthentication]
+    authentication_classes = [ JWTAuthentication]
     # , JWTAuthentication
     permission_classes = [IsAuthenticated]
     
@@ -42,7 +43,7 @@ class URLRedirection(APIView):
 # The `urlAPI` class is an API view that handles POST requests to create a URL object with
 # authentication and permission checks.
 class urlAPI(APIView):
-    authentication_classes = [BasicAuthentication, JWTAuthentication]
+    authentication_classes = [ JWTAuthentication] #removed BasicAuthentication
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
@@ -60,3 +61,32 @@ class urlAPI(APIView):
         else:
             # Invalid data, return error response
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class URLUpdateDelete(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        url_object = get_object_or_404(URL, alias=pk, user=request.user)
+        serializer = URLSerializer(url_object)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        url_object = get_object_or_404(URL, alias=pk, user=request.user)
+        data = {
+        'alias': request.data.get('alias'),
+        'long': request.data.get('long'),
+        'user': request.user.id
+        }
+        serializer = URLSerializer(url_object, data=data)
+        print(serializer)
+        if serializer.is_valid():
+            url_object.delete()
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        url_object = get_object_or_404(URL, alias=pk, user=request.user)
+        url_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

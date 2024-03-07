@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
+import requests
 
 
 def register_request(request):
@@ -20,9 +21,8 @@ def register_request(request):
         if form.is_valid():
             # Save the new user, log them in, and redirect to the homepage
             user = form.save()
-            login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect("webapp:homepage")
+            return redirect("login")
         else:
             # Display error message if the form is invalid
             messages.error(request, "Unsuccessful registration. Invalid information.")
@@ -38,6 +38,8 @@ def register_request(request):
 
 # The `urlAPI` class is an API view that handles POST requests to create a URL object with
 # authentication and permission checks.
+import requests
+
 def login_request(request):
     if request.user.is_authenticated:
         return JsonResponse({'message': 'User already logged in','user':request.user.username})
@@ -52,7 +54,18 @@ def login_request(request):
                 login(request, user)
                 print(f'LOGGED IN as {username}')
                 messages.info(request, f"You are now logged in as {username}.")
-                return JsonResponse({'success': True,'user':request.user.username})
+
+                # Assuming you need to obtain a token from an external API
+                # Make a request to the API to obtain the token
+                token_api_endpoint = 'http://127.0.0.1:8000/api/token'
+                response = requests.post(token_api_endpoint, data={'username': username, 'password': password})
+                if response.status_code == 200:
+                    token = response.json().get('access')
+                    # Do something with the token, such as storing it in session or cookies
+                    request.session['token'] = token
+                    return redirect('home')
+                else:
+                    messages.error(request, "Failed to obtain token from the API.")
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -62,12 +75,13 @@ def login_request(request):
 
     return render(request=request, template_name="login.html", context={"login_form": form})
 
-@login_required(login_url='/user/login')
+
+@login_required(login_url='/')
 def logout_request(request):
     username = request.user.username
     logout(request)
     messages.info(request, "You have successfully logged out.")
-    return JsonResponse({'success':'User logged out.','user':username})
+    return redirect("home")
 
 def test(request):
     if request.user.is_authenticated:

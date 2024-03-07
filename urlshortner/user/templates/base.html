@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Your Project Title{% endblock %}</title>
     <!-- Add your CSS links or stylesheets here -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% block style %}{% endblock style %}
 </head>
 <body>
-    <header>
-        <h1>{% block header %}Your Project Header{% endblock %}</h1>
-        <!-- Add navigation or other header content here -->
-    </header>
+    {% if messages %}
+        <div class="alert alert-danger">
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     <main>
         {% block content %}{% endblock %}
@@ -21,6 +29,6 @@
     </footer>
 
     <!-- Add your JavaScript scripts or links here -->
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
