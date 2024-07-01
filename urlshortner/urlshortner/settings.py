@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-ce4!296o$8ei-zhd6iqcy7+6@an+9p2fq=8e+l9u^#g$&@h+)2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost', "*"]
 
-TOKEN_API_ENDPOINT = 'http://127.0.0.1:8000'
+TOKEN_API_ENDPOINT = 'http://localhost:8000'
 
 # Application definition
 
